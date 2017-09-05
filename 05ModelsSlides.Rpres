@@ -1,0 +1,93 @@
+Modeling in R
+========================================================
+author: 
+date: 
+autosize: true
+
+
+t-test
+========================================================
+To get familiar with functions in R:
+
+1. Search google or StackOverflow to find the package and function name.
+2. Type `?t.test` to get documentation.
+3. Scroll to bottom of page for examples
+4. Copy paste code into editor.
+5. Update for your example.
+
+**Note:** Several analysts have put together a tool to help you get started. See <https://confluence.co.ihc.com/display/ASK/Statistical+Tools+Matrix> for the Stats Tools Matrix.
+
+
+Model Assumptions
+========================================================
+Most models have assumptions about the data to which you apply your method. 
+
+Assumptions for a t-test:
+1. Population is normally distributed
+2. Sample is random
+3. Each data point is independent of others
+
+Assumptions for a linear model:
+1. Linear relationship
+2. Residuals are Normally distrubuted with mean of 0
+3. Each data point is independent of others
+4. Each data point has equal variance (homoscedastic)
+
+
+
+lm() Example
+========================================================
+Here is an example of fitting a linear model in R:
+
+1. Get familiar with the data
+```{r echo=T, eval=F}
+mtcars <- mtcars
+fctrs <- c('cyl','vs','am','gear','carb')
+mtcars[,fctrs] <- lapply(mtcars[,fctrs], as.factor)
+summary(mtcars)
+plot(mpg ~ wt + disp + am, data=mtcars)
+```
+
+
+lm() Example (cont.)
+========================================================
+2. Fit the model
+```{r echo=T, eval=F}
+fit1 <- lm(mpg ~ wt, data=mtcars)
+summary(fit1)
+plot(fit1)
+hist(resid(fit1),freq = FALSE, ylim= c(0,.4))
+curve(dnorm(x, mean=0, sd=1), 
+      col="darkblue", lwd=2, add=TRUE, yaxt="n")
+```
+
+3. Remove bad data
+```{r echo=T, eval=F}
+w <- which(rownames(mtcars)=='Chrysler Imperial')
+fit2 <- update(fit1, subset= -w)
+summary(fit2)
+plot(fit2)
+```
+
+
+lm() Example (cont.)
+========================================================
+4. Transform variables to meet model assumptions
+```{r echo=T, eval=F}
+fit3 <- lm( I(1/mpg) ~ wt, data=mtcars)
+summary(fit3)
+plot(fit3)
+hist(resid(fit3),freq = FALSE)
+curve(dnorm(x, mean=0, sd=1), 
+      col="darkblue", lwd=2, add=TRUE, yaxt="n")
+```
+
+Hands-on Activity 
+========================================================
+See `05Models.R` code.
+
+Hands-on Activity Questions
+========================================================
+1. What adjustments did you make to your model?
+2. Did you encounter any errors?
+3. Other observations?

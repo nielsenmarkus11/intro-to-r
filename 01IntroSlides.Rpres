@@ -1,0 +1,125 @@
+Intro to R
+========================================================
+author: 
+date: 
+autosize: true
+
+Key points in history of S/S-PLUS/R:
+========================================================
+*	1970's  John Chambers (Bell Labs) developes a "Statistical Programming Language" Called S
+*	1980's  StatSci (later MathSoft, now Insightful Corp.) obtains licence to commercialize S, creates S-PLUS with ports to other operating systems, adds a GUI, adds many functions.
+*	1990's  2 Graduate students in New Zealand start a masters project to show that the original S language can be written with better memory management.  This project eventually gains additional support and evolves into R.
+*	S-PLUS and R both continue to grow and be developed, sometimes moving in different directions, sometimes growing more similar to each other.
+*	R and S-PLUS are considered the 2 current dialects of the original S language.
+
+R and Rstudio Demo
+========================================================
+* Command Line
+* Editor
+* Environment Explorer
+* File Explorer
+
+Hands-on Activity 
+========================================================
+See `01Intro.R` code.
+
+Hands-on Activity Questions
+========================================================
+1. What is R's "order of operations" when doing addition, multiplication, division, etc.?
+2. Can a command span multiple lines?
+3. Is R case-sensitive?
+4. How is an object assigned to a variable?
+5. Other observations?
+
+Scripts
+========================================================
+Advantages of using script files:
+*	Permanent record of the steps of your analysis.
+*	Rerun the script rather than retyping the series of commands.
+*	Can be easily modified for similar analyses.
+*	Corrections can be easily made and implemented.
+
+Packages
+========================================================
+Packages are groups of functions and datasets grouped by a common theme.
+* Over 10,000 packages on CRAN
+* Installed using the `install.packages()` function
+* Are managed by machine and version of R
+* DEMO RStudio package manager
+
+
+Popular Packages
+========================================================
+
+**biglm** regression models on large datasets
+
+**blockrand** generate randomizations for clinical trials
+
+**boot** and **simpleboot** bootstrapping
+
+**ggplot2**, **lattice**, and **gridExtra** plotting and graphics
+
+**plotly**, **shiny**, **rCharts**, and **iplots** interactive plotting
+
+**DBI**, **RODBC**, and **RSQLite** interfaces to databases
+
+**forecast** and **zoo** time series
+
+
+
+Popular Packages (cont.)
+========================================================
+
+**Epi**, **epicalc**, **epitools** epedimiological functions
+
+**gdata**, **gplots**, **gmodels**, **gtools**, **Design**, **Hmisc**, **TeachingDemos** various useful tools
+
+**HSAUR**, **HSAUR2**, **HSAUR3** Companion to a book that includes examples of many statistical analyses
+
+**lars**, **lasso2** alternatives to stepwise regression
+
+**nlme**, **lme4** mixed effects models
+
+**MASS** a bunch of very useful functions
+
+**multcomp** multiple comparisons
+
+**knitr** and **rmarkdown** auto generating of reports (pdf, html, docx)
+
+
+Popular Packages (cont.)
+========================================================
+
+**pwr** power and sample size
+
+**qcc** quality control charts (including g chart)
+
+**quantreg** quantile regression
+
+**randomForests**, **xgboost**, and **rpart** tree models
+
+**survey** survey analysis
+
+**survival** survival analysis
+
+A good way to find additional packages is to look at the Task Views on CRAN(https://cran.r-project.org/web/views/).
+
+
+Getting Help
+========================================================
+There are several ways to get help with R:
+* Help window in RStudio
+* RStudio cheatsheets
+* `?mean` or `help('mean')` in the console
+
+
+Intermountain firewall
+========================================================
+To download within R from behind the firewall you need to set 2 environmental variables before accessing the internet.
+
+```{r proxy, eval=FALSE}
+Sys.setenv(http_proxy='http://proxy.ihc.com:8080')
+Sys.setenv(http_user='ask')
+```
+
+You can put these commands in a file called ".Rprofile" in your home directory (type `Sys.getenv('home')` to find out your home directory) and they will be run every time you start R, or you can set environmental variables using windows control panel.

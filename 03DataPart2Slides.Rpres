@@ -1,0 +1,120 @@
+Importing and Exporting Data in R
+========================================================
+author: 
+date: 
+autosize: true
+
+Reading and writing CSVs
+========================================================
+The `read.csv()` and `write.csv()` functions can easily import and export data into R by doing the following:
+
+```{r echo=TRUE, eval=FALSE}
+dat <- read.csv("inputFile.csv", header = TRUE)
+write.csv(dat,"outputFile.csv", row.names = FALSE)
+```
+
+* `header = TRUE` tells our function to expect a header row
+* `row.names = FALSE` tells R to overide the default behaviour of outputting the row names (typically the row number)
+
+
+Installing packages in R
+========================================================
+In order to import and export other files outside of text files, typically an add-on package is needed.  Install the `xlsx`, `XLConnect`, `RODBC` and `RJDBC` packages by doing the following:
+
+```{r echo=T, eval=F}
+install.packages("xlsx")
+install.packages("XLConnect")
+install.packages("RODBC")
+install.packages("RJDBC")
+```
+
+Alternatively, you could pass all 4 package names into the function using the `c()` function to create a vector.
+
+```{r echo=T, eval=F}
+install.packages(c("xlsx","XLConnect","RODBC","RJDBC"))
+```
+
+
+Reading Excel Spreadsheets
+========================================================
+In case you aren't familiar with the functions in a package you can use the documentation to figure out how to use any function.
+
+```{r echo=TRUE, eval=FALSE}
+library(xlsx)
+help(package='xlsx')
+?read.xlsx
+
+```
+
+Reading an Excel file into R:
+```{r echo=TRUE, eval=FALSE}
+library(xlsx)
+dat <- read.xlsx("inputSpreadsheet.xlsx", 1) # import the first sheet
+```
+
+**Note:** Some of the functionality of the `xlsx` and `XLConnect` packages relies on Java Client.
+
+
+Writing Excel Spreadsheets
+========================================================
+The `XLConnect` package provides additional functionality:
+* Reading Excel spreadsheets
+* Creating and writing to Excel spreadsheets
+
+In order to create a new spreadsheet you can use the following code:
+
+```{r echo=TRUE, eval=FALSE}
+library(XLConnect)
+# import data available within R
+data(cars)
+
+# Create the spreadsheet
+myxls <- loadWorkbook('outputSpreadsheet.xlsx', create=TRUE)
+createSheet(myxls,"Cars")
+
+# Write data to spreadsheet
+writeWorksheet(myxls,cars,"Cars")
+
+# Save spreadsheet
+saveWorkbook(myxls)
+```
+
+**Note:** The `XLConnect` package relies on Java Client.
+
+
+Reading data from the EDW
+========================================================
+The `RODBC` and `RJDBC` packages provide the following functionality:
+* Connect your R session to the EDW or other database. 
+* Execute SQL commands to pull data directly into R.
+* Write to databases (EDW is typically read-only).
+
+```{r echo=TRUE, eval=FALSE}
+db = edw()
+test = sqlQuery(db, “SELECT * FROM TRAIN.XYZ_PATIENT”) 
+```
+
+Without the `edw()` function you would do the following (after setting up your ODBC driver):
+```{r echo=TRUE, eval=FALSE}
+library(RODBC)
+db = odbcConnect(dsn = "EDW64",
+                 uid = Sys.getenv("USERNAME"),
+                 pwd = .rs.askForPassword(paste0("Enter EDW password for ",Sys.getenv("USERNAME"),":")),
+                 believeNRows=FALSE)
+test = sqlQuery(db, “SELECT * FROM TRAIN.XYZ_PATIENT”) 
+```
+
+**Note:** The `edw()` function is a custom built function and is internal to Intermountain. The `RJDBC` package requires Java Client.
+
+
+Hands-on Activity 
+========================================================
+See `03DataPart2.R` code.
+
+Hands-on Activity Questions
+========================================================
+1. What functions did you use to summarize your data?
+2. Did you encounter any errors?
+3. How can you pass the SQL to the `sqlQuery()` function without retyping or copy/pasting?
+4. How can changing `SEX_CD` to a factor variable be useful in R?
+5. Other observations?
