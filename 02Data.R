@@ -57,7 +57,7 @@ letters[ -c(1,3,5) ]
 letters[ 26:1 ]
 letters[ c( 1:5, rep(6:10, each=2) , 26:20) ]
 
-x <- round( rnorm(10), 2, each=2 )
+x <- round( rnorm(10), 2 )
 names(x) <- letters[1:10]
 x
 x['a']

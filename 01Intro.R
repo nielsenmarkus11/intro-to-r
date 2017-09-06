@@ -58,4 +58,4 @@ remove(list='y')
 objects()
 
 rm(list=objects()) # removes everything
-objecst()
+objects()
