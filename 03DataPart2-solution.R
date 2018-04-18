@@ -22,6 +22,7 @@ myQuery <- "
   "
 db <- edw()
 dat <- sqlQuery(db,myQuery)
+# dat <- dbGetQuery(db,myQuery)
 
 ## Write query output to csv
 write.csv(dat,"Casemix_Smry.csv", row.names = FALSE)

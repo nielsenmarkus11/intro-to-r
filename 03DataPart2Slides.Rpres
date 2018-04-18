@@ -19,19 +19,15 @@ write.csv(dat,"outputFile.csv", row.names = FALSE)
 
 Installing packages in R
 ========================================================
-In order to import and export other files outside of text files, typically an add-on package is needed.  Install the `xlsx`, `XLConnect`, `RODBC` and `RJDBC` packages by doing the following:
+In order to import and export other files outside of text files, typically an add-on package is needed.  Install the `tidyverse`, `XLConnect`, and `intermountain` packages by doing the following:
 
 ```{r echo=T, eval=F}
-install.packages("xlsx")
+install.packages("tidyverse")
 install.packages("XLConnect")
-install.packages("RODBC")
-install.packages("RJDBC")
-```
+install.packages("devtools")
 
-Alternatively, you could pass all 4 package names into the function using the `c()` function to create a vector.
-
-```{r echo=T, eval=F}
-install.packages(c("xlsx","XLConnect","RODBC","RJDBC"))
+library(devtools)
+install_git('https://git.co.ihc.com/scm/rug/intermountain.git',args="--no-multiarch")
 ```
 
 
@@ -40,19 +36,16 @@ Reading Excel Spreadsheets
 In case you aren't familiar with the functions in a package you can use the documentation to figure out how to use any function.
 
 ```{r echo=TRUE, eval=FALSE}
-library(xlsx)
-help(package='xlsx')
-?read.xlsx
-
+library(tidyverse)
+help(package='readxl')
+?read_xlsx
 ```
 
 Reading an Excel file into R:
 ```{r echo=TRUE, eval=FALSE}
-library(xlsx)
-dat <- read.xlsx("inputSpreadsheet.xlsx", 1) # import the first sheet
+library(readxl)
+dat <- read_xlsx("inputSpreadsheet.xlsx", sheet=1) # import the first sheet
 ```
-
-**Note:** Some of the functionality of the `xlsx` and `XLConnect` packages relies on Java Client.
 
 
 Writing Excel Spreadsheets
@@ -84,27 +77,18 @@ saveWorkbook(myxls)
 
 Reading data from the EDW
 ========================================================
-The `RODBC` and `RJDBC` packages provide the following functionality:
-* Connect your R session to the EDW or other database. 
+The `intermountain` package provides the following functionality through the `RJDBC` package:
+* Connect your R session to the EDW database. 
 * Execute SQL commands to pull data directly into R.
 * Write to databases (EDW is typically read-only).
 
 ```{r echo=TRUE, eval=FALSE}
+library(intermountain)
 db = edw()
-test = sqlQuery(db, “SELECT * FROM TRAIN.XYZ_PATIENT”) 
+test = dbGetQuery(db, "SELECT * FROM TRAIN.XYZ_PATIENT") 
 ```
 
-Without the `edw()` function you would do the following (after setting up your ODBC driver):
-```{r echo=TRUE, eval=FALSE}
-library(RODBC)
-db = odbcConnect(dsn = "EDW64",
-                 uid = Sys.getenv("USERNAME"),
-                 pwd = .rs.askForPassword(paste0("Enter EDW password for ",Sys.getenv("USERNAME"),":")),
-                 believeNRows=FALSE)
-test = sqlQuery(db, “SELECT * FROM TRAIN.XYZ_PATIENT”) 
-```
-
-**Note:** The `edw()` function is a custom built function and is internal to Intermountain. The `RJDBC` package requires Java Client.
+**Note:** The `edw()` function is a custom built function and is internal to Intermountain. The `intermountain` package requires Java Client.
 
 
 Hands-on Activity 
@@ -115,6 +99,6 @@ Hands-on Activity Questions
 ========================================================
 1. What functions did you use to summarize your data?
 2. Did you encounter any errors?
-3. How can you pass the SQL to the `sqlQuery()` function without retyping or copy/pasting?
+3. How can you pass the SQL to the `dbGetQuery()` function without retyping or copy/pasting?
 4. How can changing `SEX_CD` to a factor variable be useful in R?
 5. Other observations?
