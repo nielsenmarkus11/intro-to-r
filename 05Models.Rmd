@@ -1,0 +1,128 @@
+---
+title: "Session 7 -- Models"
+output: 
+  pdf_document: default
+  html_notebook: default
+---
+
+## Model Syntax
+
+Statistical model are specified using a special syntax, the tilde (~) is used to show the relationship between the response variable(s) and the predictor variable(s):
+
+`y ~ x`
+
+`y ~ x1 + x2 + x3`
+
+`x1:x2`  Interaction between x1 and x2
+
+`x1*x2` => `x1 + x2 + x1:x2`
+
+`x1*x2*x3*x4` => all main effects and interactions
+
+`(x1+x2+x3+x4)^2` all main effects and interactions up to 2nd degree
+
+`A/B` => `A + A:B` (B nested in A)
+
+`y ~ I(x1+x2^2)`  special syntax, compute x1+x2^2 and use as single var
+
+`log(y) ~ poly(x,3)`   can transform in place.
+
+## Model Functions
+
+Some of the more common modeling functions are:
+
+lm
+:   Linear model (standard linear regression)
+
+aov
+:   Analisys of Variance (wrapper for lm)
+
+glm
+:   Generalized linear models (logistic and Poisson regression)
+
+lmer, glmer
+:   lme4 package, generalized linear mixed effects models
+
+coxph, survreg
+:  survival package, Cox proportional hazards model and parametric survival model
+
+rq
+:   quantreg package, quantile regression
+
+
+## Utility functions
+
+coef
+:   returns the coefficients of the model
+
+resid
+:   returns the residuals from the model
+
+fitted
+:   returns the fitted values from the model
+
+predict
+:   predict response for a new set of explanitory variables
+
+anova
+:   compares models (sequential tests or full/reduced test)
+
+update
+:   change just parts of the function call
+
+
+
+## Examples
+
+```{r mtc1}
+mtcars <- mtcars
+fctrs <- c('cyl','vs','am','gear','carb')
+mtcars[,fctrs] <- lapply(mtcars[,fctrs], as.factor)
+summary(mtcars)
+plot(mpg ~ wt + disp + am, data=mtcars)
+```
+
+```{r fit1}
+fit1 <- lm(mpg ~ wt, data=mtcars)
+summary(fit1)
+plot(fit1)
+hist(resid(fit1))
+```
+
+```{r fit2}
+w <- which(rownames(mtcars)=='Chrysler Imperial')
+fit2 <- update(fit1, subset= -w)
+summary(fit2)
+plot(fit2)
+```
+
+
+```{r fit3}
+fit3 <- lm( I(1/mpg) ~ wt, data=mtcars)
+summary(fit3)
+plot(fit3, which=c(1,3,5))
+plot(fitted(fit1), 1/fitted(fit3))
+abline(0,1, col='blue')
+```
+
+```{r fit4}
+fit4 <- lm(mpg ~ wt*am + disp, data=mtcars)
+fit5 <- update(fit4, . ~ . - wt:am)
+summary(fit4)
+anova(fit5, fit4)
+```
+
+
+```{r pred}
+newdata <- expand.grid(wt = range(mtcars$wt), am=factor(c(0,1)),
+                       disp=median(mtcars$disp))
+p.mpg <- predict(fit4, newdata)
+plot(mpg~wt, data=mtcars, pch=16, col=c('red','blue')[as.numeric(am)])
+legend('topright', pch=16, col=c('red','blue'), legend=c('Automatic','Manual'))
+lines(newdata$wt[1:2], p.mpg[1:2], col='red')
+lines(newdata$wt[3:4], p.mpg[3:4], col='blue')
+coef(fit4)
+coef(fit4)[1:2] # automatic
+coef(fit4)[1:2] + coef(fit4)[c(3,5)] # manual
+```
+

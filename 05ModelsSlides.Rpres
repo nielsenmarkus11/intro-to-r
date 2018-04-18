@@ -23,11 +23,13 @@ Model Assumptions
 Most models have assumptions about the data to which you apply your method. 
 
 Assumptions for a t-test:
+
 1. Population is normally distributed
 2. Sample is random
 3. Each data point is independent of others
 
 Assumptions for a linear model:
+
 1. Linear relationship
 2. Residuals are Normally distrubuted with mean of 0
 3. Each data point is independent of others
@@ -39,7 +41,7 @@ lm() Example
 ========================================================
 Here is an example of fitting a linear model in R:
 
-1. Get familiar with the data
+1- Get familiar with the data
 ```{r echo=T, eval=F}
 mtcars <- mtcars
 fctrs <- c('cyl','vs','am','gear','carb')
@@ -51,7 +53,7 @@ plot(mpg ~ wt + disp + am, data=mtcars)
 
 lm() Example (cont.)
 ========================================================
-2. Fit the model
+2- Fit the model
 ```{r echo=T, eval=F}
 fit1 <- lm(mpg ~ wt, data=mtcars)
 summary(fit1)
@@ -61,7 +63,7 @@ curve(dnorm(x, mean=0, sd=1),
       col="darkblue", lwd=2, add=TRUE, yaxt="n")
 ```
 
-3. Remove bad data
+3- Remove bad data
 ```{r echo=T, eval=F}
 w <- which(rownames(mtcars)=='Chrysler Imperial')
 fit2 <- update(fit1, subset= -w)
@@ -72,7 +74,7 @@ plot(fit2)
 
 lm() Example (cont.)
 ========================================================
-4. Transform variables to meet model assumptions
+4- Transform variables to meet model assumptions
 ```{r echo=T, eval=F}
 fit3 <- lm( I(1/mpg) ~ wt, data=mtcars)
 summary(fit3)
