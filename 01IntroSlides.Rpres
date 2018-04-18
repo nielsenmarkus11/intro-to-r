@@ -123,3 +123,10 @@ Sys.setenv(http_user='ask')
 ```
 
 You can put these commands in a file called ".Rprofile" in your home directory (type `Sys.getenv('home')` to find out your home directory) and they will be run every time you start R, or you can set environmental variables using windows control panel.
+
+
+Hands-on Activity 
+========================================================
+Install the `tidyverse` package.
+
+Hint: `?install.packages`

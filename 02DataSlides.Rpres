@@ -73,3 +73,37 @@ Hands-on Activity Questions
 4. How are data frames subsetted?
 5. Can you append two vectors together? Can you append two data frames together?
 6. Other observations?
+
+
+tidyverse (dplyr)
+========================================================
+
+* `filter()` - Limit rows of data based on criteria
+* `select()` - Limit columns of data
+* `mutate()` - Create new columns from existing columns
+* `arrange()` - Sort by or order by a column or set of columns
+* `group_by()` - Group by a column or set of columns
+* `summarize()` - Create a summary of columns by the columns specified in the `group_by()` function.
+
+
+tidyverse (magrittr)
+========================================================
+`%>%` or "pipe" - pass output of object/function on the right hand side to the function on the left hand side.
+
+We can use `%>%` to "chain" together a set of commands:
+```{r}
+library(tidyverse)
+
+iris %>% 
+  select(Species, Sepal.Length, Sepal.Width) %>% 
+  group_by(Species) %>% 
+  summarize(Sepal.Length = mean(Sepal.Length), 
+            Sepal.Width = mean(Sepal.Width)) %>% 
+  arrange(-Sepal.Length)
+```
+
+
+
+Hands-on Activity 
+========================================================
+See `02Data-tidyverse.R` code.
