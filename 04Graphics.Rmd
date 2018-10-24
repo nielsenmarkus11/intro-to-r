@@ -1,8 +1,7 @@
 ---
 title: "Graphics in R"
 output:
-  ioslides_presentation: default
-  beamer_presentation: default
+  pdf_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

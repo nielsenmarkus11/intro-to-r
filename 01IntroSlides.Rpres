@@ -119,7 +119,7 @@ To download within R from behind the firewall you need to set 2 environmental va
 
 ```{r proxy, eval=FALSE}
 Sys.setenv(http_proxy='http://proxy.ihc.com:8080')
-Sys.setenv(http_user='ask')
+Sys.setenv(https_proxy='https://proxy.ihc.com:8080')
 ```
 
 You can put these commands in a file called ".Rprofile" in your home directory (type `Sys.getenv('home')` to find out your home directory) and they will be run every time you start R, or you can set environmental variables using windows control panel.

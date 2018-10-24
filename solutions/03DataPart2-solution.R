@@ -1,5 +1,5 @@
 ## Load libraries
-library(RODBC)
+library(intermountain)
 
 ## Set Working directory
 setwd("~")
@@ -21,8 +21,8 @@ myQuery <- "
 
   "
 db <- edw()
-dat <- sqlQuery(db,myQuery)
-# dat <- dbGetQuery(db,myQuery)
+# dat <- sqlQuery(db,myQuery)
+dat <- dbGetQuery(db,myQuery)
 
 ## Write query output to csv
 write.csv(dat,"Casemix_Smry.csv", row.names = FALSE)
@@ -43,6 +43,7 @@ dat$SEX_CD = as.factor(dat$SEX_CD)
 summary(dat) # It looks like we correct SEX_CD and EDW_CM_ID but now it bothers me that EDW_CM_ID is not unique 
 
 # So lets look at two cases with the same EDW_CM_ID
+?duplicated
 dup=dat[dat$EDW_CM_ID %in% dat$EDW_CM_ID[duplicated(dat$EDW_CM_ID)],] # this will show all non unique EDW_CM_IDs
 dup=dup[order(dup$EDW_CM_ID),] # Good thing this is a training data set lets go ahead and remove a single instance of those that are duplicated
 dat=dat[!duplicated(dat$EDW_CM_ID),]

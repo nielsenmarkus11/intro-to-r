@@ -1,6 +1,6 @@
 #########################################################################
 ### TYPE OR COPY/PASTE THE FOLLOWING COMMANDS INTO THE COMMAND PROMPT ###
-### (YOU CAN PLACE THE CURSOR ON A LINE AND PRESS 'ctrl-enter')       ###
+### (OR YOU CAN PLACE THE CURSOR ON A LINE AND PRESS 'ctrl-enter')    ###
 #########################################################################
 
 ## Group 1

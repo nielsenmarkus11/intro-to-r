@@ -6,7 +6,7 @@ setwd("~")
 
 
 ## Pull data from the edw
-# hint: set the connection first then submit the query with 'sqlQuery()'
+# hint: set the connection first then submit the query with 'sqlQuery()' or 'dbGetQuery()'
 myQuery <- "
 
   SELECT

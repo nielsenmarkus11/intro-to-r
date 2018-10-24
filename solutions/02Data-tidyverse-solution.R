@@ -19,13 +19,15 @@ mtcars %>%
 mtcars %>%
   summarize(mean.mpg = mean(mpg))
 
+mean(mtcars$mpg)
 
 # What is the mean and standard deviation of mpg by number of cylinders?
 mtcars %>% 
   group_by(cyl) %>% 
   summarize(mean.mpg = mean(mpg), sd.mpg = sd(mpg))
   
-
+tapply(mtcars$mpg,mtcars$cyl,mean)
+tapply(mtcars$mpg,mtcars$cyl,sd)
 
 # Which type of vehicle gets better gas mileage, automatic or manual (am)?
 # Hint: ?mtcars can give you some metadata for this preloaded data.
@@ -40,5 +42,6 @@ mtcars %>%
 # Bonus: Can you limit this list automatically to the top 5?
 # Hint: ?top_n
 mtcars %>% 
-  select(makemodel,mpg,cyl,hp,qsec) %>% 
-  top_n(5,qsec)
+  select(makemodel,mpg,cyl,hp,qsec) %>%
+  top_n(5,-qsec) %>% 
+  arrange(qsec)

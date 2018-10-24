@@ -8,10 +8,11 @@
 
 
 ## Conduct a t-test between the means of each gender
-# hint: use the t.test function
+# hint: use the t.test() function
 
 
 ## Now fit a linear model of TOTAL_COST_AMT regressed on both SEX_CD and AGE_YRS
+# hint: use the lm() function
 
 
 ## Check your model assumptions

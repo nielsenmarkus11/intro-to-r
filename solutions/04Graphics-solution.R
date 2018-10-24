@@ -18,7 +18,6 @@ ggplot(data=dat,aes(x = TOTAL_COST_AMT, fill = SEX_CD, color=SEX_CD)) +
 
 
 # Create a summary data set containing the means and medians of TOTAL_COST_AMT by SEX_CD
-# hint: don't forget to replace 'dat' with whatever you name your input data set above
 cost.summary=dat %>% 
   group_by(SEX_CD) %>% 
   summarise(mn = mean(TOTAL_COST_AMT), med=median(TOTAL_COST_AMT), cnt=length(TOTAL_COST_AMT))

@@ -26,5 +26,6 @@ mtcars <- as.tibble(mtcars)
 
 
 
-# Bonus: What are the top 5 vehicles with the fastest 1/4 mile times (qsec)?
+# What is the mpg, number of cylinders, and horsepower for each of the top 5 vehicles with the fastest 1/4 mile times (qsec)? 
+# Bonus: Can you limit this list automatically to the top 5?
 # Hint: ?top_n
