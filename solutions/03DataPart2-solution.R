@@ -46,7 +46,12 @@ summary(dat) # It looks like we correct SEX_CD and EDW_CM_ID but now it bothers 
 ?duplicated
 dup=dat[dat$EDW_CM_ID %in% dat$EDW_CM_ID[duplicated(dat$EDW_CM_ID)],] # this will show all non unique EDW_CM_IDs
 dup=dup[order(dup$EDW_CM_ID),] # Good thing this is a training data set lets go ahead and remove a single instance of those that are duplicated
+
+#remove duplicates
 dat=dat[!duplicated(dat$EDW_CM_ID),]
+
+dat2 = dat %>% filter(!duplicated(EDW_CM_ID))
+
 dim(dat) # Now we have 20,346 Observatios
 
 # Now we've removed the duplicate EDW_CM_IDs - There are some NA's in the age and 999 age_yrs
