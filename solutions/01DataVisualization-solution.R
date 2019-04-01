@@ -16,8 +16,8 @@ alldat <- ccdat %>%
 
 
 # 2. How many rows are in `mpg`? How many columns?
-nrow(mtcars)
-ncol(mtcars)
+nrow(mpg)
+ncol(mpg)
 
 
 # 3. What does the `drv` variable describe? Read the help for `?mpg` to find out.
@@ -74,8 +74,8 @@ ggplot(data = mpg) +
 
 
 # 5. What does the stroke aesthetic do? What shapes does it work with? (Hint: use `?geom_point`)
-ggplot(data = mtcars) +
-  geom_point(mapping = aes(wt, mpg), shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy), shape = 21, colour = "black", fill = "white", size = 5, stroke = 5)
 ## Stroke changes the size of the border for shapes (21-25). These are filled shapes in which the color and size of the border can differ 
 ##   from that of the filled interior of the shape.
 
