@@ -26,8 +26,16 @@ install.packages("tidyverse")
 install.packages("XLConnect")
 install.packages("devtools")
 
+# Install the intermountain package
+# Make sure the folders below exist from your oracle client setup
+Sys.setenv(OCI_LIB64 = "C:/oracle11g64bit/product/11.2.0/client_2/BIN")
+Sys.setenv(OCI_INC = "C:/oracle11g64bit/product/11.2.0/client_2/oci/include")
+
+install.packages('ROracle', type='source')
+
 library(devtools)
 install_git('https://git.co.ihc.com/scm/rug/intermountain.git',args="--no-multiarch")
+library(intermountain)
 ```
 
 
@@ -86,9 +94,10 @@ The `intermountain` package provides the following functionality through the `RJ
 library(intermountain)
 db = edw()
 test = dbGetQuery(db, "SELECT * FROM TRAIN.XYZ_PATIENT") 
+# test = sqlQuery(db, "SELECT * FROM TRAIN.XYZ_PATIENT") 
 ```
 
-**Note:** The `edw()` function is a custom built function and is internal to Intermountain. The `intermountain` package requires Java Client.
+**Note:** The `edw()` function is a custom built function and is internal to Intermountain. The `intermountain` package requires 64-bit Oracle Instant Client.
 
 
 Hands-on Activity 
