@@ -1,0 +1,31 @@
+---
+title: "Titanic Data Exploration"
+output: html_notebook
+---
+
+## Titanic Data
+
+### Question 1: What characteristics describe those that survived the sinking of the Titanic?
+
+```{r}
+# load libraries
+library(tidyverse)
+
+# set working directory
+
+# read in the data
+z_train <- unz('titanic.zip', filename = 'train.csv')
+pre_train <- read.table(z_train, header=T, sep=',')
+
+validate_sample <- as.numeric(sample(row.names(pre_train), 100))
+train <- pre_train[-validate_sample,]
+validate <- pre_train[validate_sample,]
+
+z_test <- unz('titanic.zip', filename = 'test.csv')
+test <- read.table(z_test, header=T, sep=',')
+
+```
+
+
+### Question 2: Can you predict how likely it would be for you to survive?
+

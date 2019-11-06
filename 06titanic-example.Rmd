@@ -1,0 +1,125 @@
+---
+title: "Titanic Data Exploration"
+output: html_notebook
+---
+
+## Titanic Data
+
+### Question 1: What characteristics describe those that survived the sinking of the Titanic?
+
+```{r}
+# load libraries
+library(tidyverse)
+
+# set working directory
+
+# read in the data
+z_train <- unz('titanic.zip', filename = 'train.csv')
+pre_train <- read.table(z_train, header=T, sep=',')
+
+validate_sample <- as.numeric(sample(row.names(pre_train), 100))
+train <- pre_train[-validate_sample,]
+validate <- pre_train[validate_sample,]
+
+z_test <- unz('titanic.zip', filename = 'test.csv')
+test <- read.table(z_test, header=T, sep=',')
+
+```
+
+
+```{r}
+# Data Exploration
+str(train)
+head(train)
+```
+
+
+```{r}
+Hmisc::describe(train)
+```
+
+
+```{r}
+ggplot(train) +
+  geom_bar(aes(x=as.factor(Survived), y=..count.., fill=as.factor(Survived))) + 
+  facet_wrap(~Pclass)
+```
+
+```{r}
+ggplot(train) +
+  geom_bar(aes(x=as.factor(Survived), y=..count.., fill=as.factor(Survived))) + 
+  facet_wrap(~Sex)
+```
+
+```{r}
+ggplot(train) +
+  geom_bar(aes(x=as.factor(Survived), y=..count.., fill=as.factor(Survived))) + 
+  facet_grid(Pclass~Sex)
+```
+
+
+```{r}
+ggplot(train) +
+  geom_density(aes(x=Age, color=as.factor(Survived), fill=as.factor(Survived)), alpha=0.35)
+```
+
+### Question 2: Can you predict how likely it would be for you to survive?
+
+```{r}
+library(randomForest)
+
+avg_age <- mean(train$Age, na.rm=T)
+train <- train %>% 
+  replace_na(list(Age=avg_age))
+
+rf1 <- randomForest(as.factor(Survived) ~ Pclass + Sex + Age, data = train, importance = TRUE, )
+
+importance(rf1)
+
+```
+
+
+```{r}
+validate$pred <- predict(rf1, newdata = validate, type="prob")[,2]
+validate$pred_survive <- ifelse(validate$pred>0.5,1,0)
+
+xtab <- xtabs(~Survived+pred_survive, data=validate)
+
+library(caret)
+confusionMatrix(xtab)
+
+library(pROC)
+roc_obj <- roc(validate$Survived, validate$pred, plot=TRUE, print.auc = TRUE)
+```
+
+
+
+```{r}
+me = data.frame(Pclass=3, Sex=factor('male', levels=levels(train$Sex)), Age=33)
+me_survive = predict(rf1, newdata = me, type='prob')[,2]
+paste0("The probablity that I would survive the Titanic is ",round(100*me_survive,1),"%")
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

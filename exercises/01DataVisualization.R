@@ -4,11 +4,16 @@ setwd('~/dept-drive/Mark N/zMisc/training/Intermountain/Intro to R/data')
 ccdat <- read.csv("chronic-conditions.csv")
 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
-ccdat$state <- trim(ccdat$state)
-ccdat$year <- as.numeric(ccdat$year)
+
+ccdat <- ccdat %>% 
+  mutate(state=trim(state), 
+         year=as.numeric(year))
 
 alldat <- ccdat %>% 
   filter(age=="All", state=="National")
+
+ut.diabetes <- ccdat %>% 
+  filter(state=="Utah", age=="All", chronicCondition=="Diabetes")
 
 ## Set 0 Exercises ---------------------------------
 # 1. Run `ggplot(data = mpg)`. What do you see?
@@ -33,7 +38,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
 
-# 2. Which variables in `mpg` are categorical? Which variables are continuous? (Hint: type `?mpg` to read the documentation for the dataset). How can you see this information when you run `mpg`?
+# 2. Which variables in `mpg` are categorical? Which variables are continuous? (Hint: type `?mpg` to read the documentation for the dataset). How can you see this information when you run `print(mpg)` or just `mpg`?
 
 
 # 3. Map a continuous variable to `color`, `size`, and `shape`. How do these aesthetics behave differently for categorical vs. continuous variables?
@@ -73,7 +78,7 @@ ggplot(data = alldat) +
   geom_boxplot(mapping = aes(x=as.factor(year), y=prevalence))
 
 
-# 3. What happens when you move both of the the `mapping` arguments into the `ggplot()` function?
+# 3. What happens when you consolidate both of the the `mapping` arguments into the `ggplot()` function?
 ggplot(data = alldat) + 
   geom_point(mapping = aes(x=year,y=prevalence)) + 
   geom_smooth(mapping = aes(x=year,y=prevalence), method=lm)

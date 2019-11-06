@@ -4,14 +4,20 @@ setwd('~/dept-drive/Mark N/zMisc/training/Intermountain/Intro to R/data')
 ccdat <- read.csv("chronic-conditions.csv")
 
 trim <- function (x) gsub("^\\s+|\\s+$", "", x)
-ccdat$state <- trim(ccdat$state)
-ccdat$year <- as.numeric(ccdat$year)
+
+ccdat <- ccdat %>% 
+  mutate(state=trim(state), 
+         year=as.numeric(year))
 
 alldat <- ccdat %>% 
   filter(age=="All", state=="National")
 
+ut.diabetes <- ccdat %>% 
+  filter(state=="Utah", age=="All", chronicCondition=="Diabetes")
+
 ## Set 0 Exercises ---------------------------------
 # 1. Run `ggplot(data = mpg)`. What do you see?
+ggplot(data = mpg)
 ## This produces a blank canvas.
 
 
@@ -34,6 +40,9 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = class, y = drv))
 ## A scatter plot is not a useful display of these variables since both drv and class are categorical variables.
 
+ggplot(data = mpg) +
+  geom_jitter(mapping = aes(x = class, y = drv))
+## geom_jitter may help with this type of a visualization
 
 
 ## Set 1 Exercises ---------------------------------
@@ -50,7 +59,7 @@ ggplot(data = mpg) +
 ?mpg
 ## categorical: manufacturer, model, trans, drv, fl, class
 ## continuous : displ, year, cyl, cty, hwy
-
+str(mpg)
 # 3. Map a continuous variable to `color`, `size`, and `shape`. How do these aesthetics behave differently for categorical vs. continuous variables?
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = cty))
@@ -67,7 +76,7 @@ ggplot(data = mpg) +
 
 # 4. What happens if you map the same variable to multiple aesthetics?
 ggplot(data = mpg) +
-  geom_point(mapping = aes(x = displ, y = hwy, colour = hwy, size = displ))
+  geom_point(mapping = aes(x = displ, y = hwy, colour = hwy, size = hwy))
 ## In the above plot, hwy is mapped to both location on the y-axis and color, and displ is mapped to both location on the x-axis and size.
 ##   The code works and produces a plot, even if it is a bad one. Mapping a single variable to multiple aesthetics is redundant. Because it 
 ##   is redundant information, in most cases avoid mapping a single variable to multiple aesthetics.
@@ -121,7 +130,7 @@ ggplot(data = alldat) +
 
 # 2. What happens when you exclude `as.factor()` and run the following code?
 ggplot(data = alldat) + 
-  geom_boxplot(mapping = aes(x=as.factor(year), y=prevalence))
+  geom_boxplot(mapping = aes(x=year, y=prevalence))
 ## It generates one large boxplot for all years.
 
 # 3. What happens when you move both of the the `mapping` arguments into the `ggplot()` function?

@@ -14,12 +14,7 @@ margin-bottom: 10px;
 width: 80%;
 font-size: 0.6em;
 }
-.remark-code {
-    font-size: 14px;
-}
-.remark-slide-content {
-    font-size: 16px;
-}
+
 </style>
 
 ```{r setup, include=FALSE}
@@ -239,10 +234,7 @@ Effectively, a model with a categorical x will predict the mean value for each c
 
 ```{r echo=TRUE}
 mod2 <- lm(y ~ x, data = sim2)
-
-grid <- sim2 %>% 
-  data_grid(x) %>% 
-  add_predictions(mod2)
+grid <- sim2 %>% data_grid(x) %>% add_predictions(mod2)
 
 ggplot(sim2, aes(x)) + 
   geom_point(aes(y = y)) +

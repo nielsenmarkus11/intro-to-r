@@ -17,7 +17,7 @@ myQuery <- "
     ,SMR.TOTAL_COST_AMT
     ,SMR.ADMIT_YR
 
-  FROM TRAIN.CASEMIX_SMRY SMR
+  FROM TRAIN.CASEMIX_SMRY_NOT_USED SMR
 
   "
 db <- edw()
@@ -33,6 +33,11 @@ write.csv(dat,"Casemix_Smry.csv", row.names = FALSE)
 dim(dat) # 20,388 observations
 summary(dat)
 
+dat %>% 
+  filter(SEX_CD=='1') %>% 
+  Hmisc::describe()
+
+Hmisc::describe(dat[dat['SEX_CD']=='1',])
 
 ## Does your data need any cleaning?
 
@@ -44,13 +49,19 @@ summary(dat) # It looks like we correct SEX_CD and EDW_CM_ID but now it bothers 
 
 # So lets look at two cases with the same EDW_CM_ID
 ?duplicated
-dup=dat[dat$EDW_CM_ID %in% dat$EDW_CM_ID[duplicated(dat$EDW_CM_ID)],] # this will show all non unique EDW_CM_IDs
-dup=dup[order(dup$EDW_CM_ID),] # Good thing this is a training data set lets go ahead and remove a single instance of those that are duplicated
+dup <- dat %>% 
+  filter(duplicated(EDW_CM_ID)) %>% 
+  select(EDW_CM_ID)
+
+# this will show all non unique EDW_CM_IDs
+dups <- dat %>% 
+  filter(EDW_CM_ID %in% dup$EDW_CM_ID) %>% 
+  arrange(EDW_CM_ID)
+# Good thing this is a training data set lets go ahead and remove a single instance of those that are duplicated
 
 #remove duplicates
-dat=dat[!duplicated(dat$EDW_CM_ID),]
-
-dat2 = dat %>% filter(!duplicated(EDW_CM_ID))
+dat=dat %>% 
+  filter(!duplicated(EDW_CM_ID))
 
 dim(dat) # Now we have 20,346 Observatios
 
