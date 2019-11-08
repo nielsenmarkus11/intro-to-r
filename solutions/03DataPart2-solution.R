@@ -57,6 +57,7 @@ dup <- dat %>%
 dups <- dat %>% 
   filter(EDW_CM_ID %in% dup$EDW_CM_ID) %>% 
   arrange(EDW_CM_ID)
+dups
 # Good thing this is a training data set lets go ahead and remove a single instance of those that are duplicated
 
 #remove duplicates

@@ -24,7 +24,7 @@ ggplot(data = mpg)
 # 2. How many rows are in `mpg`? How many columns?
 nrow(mpg)
 ncol(mpg)
-
+str(mpg)
 
 # 3. What does the `drv` variable describe? Read the help for `?mpg` to find out.
 ## The drv variable is a categorical variable which categorizes cars into front-wheels, rear-wheels, or four-wheel drive.
@@ -137,6 +137,10 @@ ggplot(data = alldat) +
 ggplot(data = alldat) + 
   geom_point(mapping = aes(x=year,y=prevalence)) + 
   geom_smooth(mapping = aes(x=year,y=prevalence), method=lm)
+
+ggplot(data = alldat, mapping = aes(x=year,y=prevalence)) + 
+  geom_point() + 
+  geom_smooth(method=lm)
 ## Nothing changes... except that I don't have to map the variables twice. :)
 
 

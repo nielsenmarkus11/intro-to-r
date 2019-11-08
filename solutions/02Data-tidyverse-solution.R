@@ -45,3 +45,6 @@ mtcars %>%
   select(makemodel,mpg,cyl,hp,qsec) %>%
   top_n(5,-qsec) %>% 
   arrange(qsec)
+
+new_mtcars <- mtcars[order(mtcars$qsec),]
+new_mtcars[1:5,c("makemodel","mpg","cyl","hp","qsec")]
